@@ -12,6 +12,8 @@ const observer = new IntersectionObserver((entries) => {
 const hiddenItems = document.querySelectorAll('.hidden');
 hiddenItems.forEach((el) => observer.observe(el));
 const scrollDownClick = document.querySelector('#scroll1')
+const scrollDownClick2 = document.querySelector('#scroll2')
+
 function Meow(){
 window.scrollBy({
     right:0,
@@ -20,5 +22,6 @@ window.scrollBy({
 
 }
 scrollDownClick.onclick = Meow
+scrollDownClick2.onclick = Meow
 
 
