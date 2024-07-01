@@ -8,7 +8,8 @@ body {
     font-family: Barlow;
 
 }
-:root{
+
+:root {
     --rotateX: 20deg;
     --rotateY: 20deg;
 }
@@ -25,7 +26,24 @@ body {
     border: none;
 }
 
-.section1 {}
+.section1 .Name-text {
+    width: 23ch;
+    animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+}
+
+.section2 .Name-text {
+    font-size: 3rem;
+    width: 36ch;
+    animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+}
 
 
 .section {
@@ -77,11 +95,12 @@ body {
     grid-area: head;
 }
 
-.Name-text {
-
+.section1 .Name-text {
     font-weight: 900;
     font-size: 4em;
-}
+    position: absolute;
+    top: 30vh;
+;}
 
 .hidden {
     opacity: 0;
@@ -120,7 +139,10 @@ body {
     font-weight: 100;
     animation: bounce infinite 2s .5s;
 }
-
+.section1 .scrollBtn{
+    position: absolute;
+    top: 70vh;
+}
 .scrollBtnV2 {
     grid-area: scroll2;
 
@@ -186,7 +208,8 @@ body {
     border-radius: 1rem;
     box-shadow: 0 4px 15px rgba(95, 94, 94, 0.2);
     text-align: center;
-    position: relative;
+    position: sticky;
+    top: -50vh;
     transform-style: preserve-3d;
     transform:
         perspective(5000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
@@ -246,6 +269,10 @@ body {
     height: 24px;
     filter: invert(1);
 }
+.resumeInfo{
+    display: flex;
+    flex-direction: column;
+}
 
 .hidden {
     opacity: 0;
@@ -294,5 +321,17 @@ body {
         -webkit-transform: translateY(-5px);
         -ms-transform: translateY(-5px);
         transform: translateY(-5px);
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent
     }
 }
