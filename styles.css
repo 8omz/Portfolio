@@ -6,9 +6,15 @@ body {
     padding: 0;
     margin: 0;
     font-family: Barlow;
+
 }
-body{
-    background-image: url(nightdark.png);
+:root{
+    --rotateX: 20deg;
+    --rotateY: 20deg;
+}
+
+body {
+    background-image: url(src/nightdark.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,9 +25,7 @@ body{
     border: none;
 }
 
-.section1 {
-
-}
+.section1 {}
 
 
 .section {
@@ -95,6 +99,7 @@ body{
     border: none;
     cursor: pointer;
 }
+
 #scroll2 {
     background: none;
     border: none;
@@ -115,7 +120,8 @@ body{
     font-weight: 100;
     animation: bounce infinite 2s .5s;
 }
-.scrollBtnV2{
+
+.scrollBtnV2 {
     grid-area: scroll2;
 
 }
@@ -162,21 +168,50 @@ body{
     animation-timeline: scroll();
     transform-origin: left;
 }
+
 .section3 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 2fr;
     min-height: 100vh;
 }
 
+.profile-card>* {
+    text-shadow: 0 0 0.3em white;
+}
+
 .profile-card {
-    background: rgba(255, 255, 255, 0.1);
+    grid-column: 2;
+    background: rgb(80, 77, 77);
     padding: 2rem;
-    border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(95, 94, 94, 0.2);
     text-align: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    transform-style: preserve-3d;
+    transform:
+        perspective(5000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
+}
+
+.profile-card::before,
+.profile-card::after {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+}
+
+.profile-card::before {
+    inset: 0.75rem;
+    background: rgb(0, 0, 0);
+    transform: translateZ(-49px);
+    filter: blur(15px);
+    opacity: 0.5;
+}
+
+.profile-card::after {
+    inset: -1rem;
+    background:
+        linear-gradient(-45deg, #1e1829, rgb(30, 25, 80));
+    transform: translateZ(-50px);
 }
 
 .profile-image {
@@ -238,23 +273,26 @@ body{
 }
 
 @keyframes bounce {
+
     0%,
     100%,
     20%,
     50%,
     80% {
-      -webkit-transform: translateY(0);
-      -ms-transform: translateY(0);
-      transform: translateY(0);
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
     }
+
     40% {
-      -webkit-transform: translateY(-10px);
-      -ms-transform: translateY(-10px);
-      transform: translateY(-10px);
+        -webkit-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+        transform: translateY(-10px);
     }
+
     60% {
-      -webkit-transform: translateY(-5px);
-      -ms-transform: translateY(-5px);
-      transform: translateY(-5px);
+        -webkit-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        transform: translateY(-5px);
     }
-  }
+}
