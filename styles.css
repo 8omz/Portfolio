@@ -8,12 +8,14 @@ body {
     font-family: inter;
 
 }
-.gradient{
+
+.gradient {
     background: radial-gradient(circle, #7b4397, #dc2430);
     -webkit-background-clip: text;
-            background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 :root {
     --rotateX: 20deg;
     --rotateY: 20deg;
@@ -30,6 +32,7 @@ body {
     background-attachment: fixed;
     border: none;
 }
+
 /* grid background
 body {
     background-image: 
@@ -136,11 +139,13 @@ body {
     border: none;
     cursor: pointer;
 }
-#scroll3,#scroll4 {
+
+#scroll3,
+#scroll4 {
     background: none;
     border: none;
     cursor: pointer;
-    
+
 }
 
 #scroll2 {
@@ -163,11 +168,12 @@ body {
     font-weight: 100;
     animation: bounce infinite 2s .5s;
 }
+
 .scrollBtn2 {
     color: ;
-   position: absolute;
-   bottom: 0;
-   right: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     font-weight: 100;
     animation: bounce infinite 2s .5s;
 }
@@ -197,16 +203,28 @@ body {
 
 .imageFloat:nth-child(3) {
     transition-delay: 300ms;
-    
+    background-color: #1e1829;
+    width: 255px;
+    height: 255px;
+    border-radius: 25px;
+    border-style: groove;
+    border-color: #1e1829;
+    box-shadow: 25px 25px 5px #0000009f;
+
     animation: bounce infinite 4s .75s;
 }
 
 
 .imageFloat:nth-child(1) {
-    width: 240px;
-    height: 240px;
     animation: bounce infinite 4s 1s;
 
+    transition-delay: 300ms;
+    background-color: #1e1829;
+    width: 255px;
+    height: 255px;
+    border-radius: 25px;
+    border-style: groove;
+    border-color: #1e1829;
     box-shadow: 25px 25px 5px #0000009f;
 }
 
@@ -229,10 +247,12 @@ body {
     min-height: 100vh;
 }
 
-h2,h1 {
+h2,
+h1 {
     text-shadow: 0 0 0.1em white;
 }
-.gradient{
+
+.gradient {
     text-shadow: 0 0 0.1em purple;
 }
 
