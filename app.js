@@ -331,7 +331,7 @@ function openOverlay(type) {
             return;
     }
 }
-
+// Close button handler
 function closeOverlay() {
     overlay.setAttribute('aria-hidden', 'true');
     clearDetailGrid();
