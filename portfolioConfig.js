@@ -2,7 +2,7 @@
 const profileConfig = {
     name: "Omar Sakho",
     title: "Computer Science Student",
-    bio: "Computer Science student at WLU with a passion for Backend Development and Machine Learning. Experienced in Python, JavaScript/TypeScript, and C++.",
+    bio: "I study Computer Science at Wilfrid Laurier and I'm into backend development and machine learning. I like building full-stack projects and AI stuff using Python, JavaScript/TypeScript, and C++.",
     socialLinks: {
         linkedin: "https://www.linkedin.com/in/omar-sakho",
         github: "https://github.com/8omz",

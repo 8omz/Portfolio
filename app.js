@@ -1,22 +1,6 @@
-// Apply profile configuration
-function applyProfileConfig() {
-    const profileName = document.querySelector('.profile-card h2');
-    const profileDesc = document.querySelector('.profile-card p');
-    const aboutText = document.querySelector('.about');
-    
-    if (window.profileConfig) {
-        if (profileName && profileDesc) {
-            profileName.textContent = profileConfig.name;
-            profileDesc.innerHTML = `${profileConfig.title}<br>Backend Development | Machine Learning<br>Class of 2028`;
-        }
-        if (aboutText) {
-            aboutText.textContent = `Hey, I'm ${profileConfig.name} and welcome to my portfolio page. ${profileConfig.bio}`;
-        }
-    }
-}
 
-// Initialize profile when document loads
-document.addEventListener('DOMContentLoaded', applyProfileConfig);
+
+
 
 //Hides and Unhides elemnts when in view 
 const observer = new IntersectionObserver((entries) => {
