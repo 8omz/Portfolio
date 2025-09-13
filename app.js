@@ -1,3 +1,23 @@
+// Apply profile configuration
+function applyProfileConfig() {
+    const profileName = document.querySelector('.profile-card h2');
+    const profileDesc = document.querySelector('.profile-card p');
+    const aboutText = document.querySelector('.about');
+    
+    if (window.profileConfig) {
+        if (profileName && profileDesc) {
+            profileName.textContent = profileConfig.name;
+            profileDesc.innerHTML = `${profileConfig.title}<br>Backend Development | Machine Learning<br>Class of 2028`;
+        }
+        if (aboutText) {
+            aboutText.textContent = `Hey, I'm ${profileConfig.name} and welcome to my portfolio page. ${profileConfig.bio}`;
+        }
+    }
+}
+
+// Initialize profile when document loads
+document.addEventListener('DOMContentLoaded', applyProfileConfig);
+
 //Hides and Unhides elemnts when in view 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -167,15 +187,12 @@ function clearDetailGrid() {
 function createTile(title, desc, options = {}) {
     const t = document.createElement('div');
     t.className = 'detail-tile';
-    // Support an optional thumbnail; fallback to placeholder gradient
-    const thumb = options.thumbnail || options.thumb || null;
-    if (thumb) {
-        t.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.48)), url('${thumb}')`;
-    } else {
-        t.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.45)), url('src/placeholder.png')`;
-    }
-    const h = document.createElement('h4'); h.textContent = title;
-    const p = document.createElement('p'); p.textContent = desc;
+    
+    const h = document.createElement('h3');
+    h.textContent = title;
+    
+    const p = document.createElement('p');
+    p.textContent = desc;
     if (options.repo) {
         t.dataset.repo = options.repo; // e.g. "owner/repo"
         t.classList.add('project-tile');
@@ -192,34 +209,126 @@ function openOverlay(type) {
     detailTitle.textContent = type[0].toUpperCase() + type.slice(1);
     clearDetailGrid();
     
-    if (type === 'projects') {
-        if (projectsConfig.length === 0) {
-            debugLog('Projects overlay opened but projectsConfig empty, initializing...');
-            initializeProjects();
-        } else {
-            renderProjectsPreview();
-        }
+    // Get config based on type
+    switch(type) {
+        case 'skills':
+            // Skills section with better categorization
+            const skillsCategories = [
+                {
+                    title: 'Programming Languages',
+                    items: ['Python', 'JavaScript', 'C/C++', 'SQL', 'HTML/CSS', 'TypeScript', 'VBA', 'MATLAB', 'Bash']
+                },
+                {
+                    title: 'Frameworks & Libraries',
+                    items: ['React', 'Node.js', 'Flask', 'FastAPI', 'Material-UI', 'Express', 'Tailwind CSS']
+                },
+                {
+                    title: 'Tools & Technologies',
+                    items: ['Git', 'Docker', 'Firebase', 'VS Code', 'PyDev', 'Figma', 'Eclipse', 'Postman', 'GitHub Actions']
+                },
+                {
+                    title: 'Core Concepts',
+                    items: ['Data Structures & Algorithms', 'API Integration', 'Version Control', 'Agile Development', 'Test-Driven Development', 'REST Architecture']
+                },
+                {
+                    title: 'Additional Skills',
+                    items: ['English (Native)', 'French (Bilingual)', 'Responsive Web Design', 'Python DSA Certification']
+                }
+            ];
 
-        // Use event delegation for project tiles
-        if (!detailGrid._hasProjectHandler) {
-            detailGrid.addEventListener('click', (ev) => {
-                const tile = ev.target.closest && ev.target.closest('.project-tile');
-                if (!tile) return;
-                const repo = tile.dataset.repo;
-                if (repo) showProjectDetails(repo, { title: tile.querySelector('h4')?.textContent, desc: tile.querySelector('p')?.textContent });
+            skillsCategories.forEach(category => {
+                detailGrid.appendChild(createTile(category.title, category.items.join(' • ')));
             });
-            detailGrid._hasProjectHandler = true;
-        }
-    } else if (type === 'experience') {
-        // simple fillers for experience
-        for (let i = 1; i <= 6; i++) {
-            detailGrid.appendChild(createTile(`${type} item ${i}`, `Brief description for ${type} item ${i}`));
-        }
-    } else if (type === 'skills') {
-        detailGrid.appendChild(createTile('Languages', 'JavaScript, Python, C++'));
-        detailGrid.appendChild(createTile('Frameworks', 'Node.js, Express'));
-    } else if (type === 'education') {
-        detailGrid.appendChild(createTile('BSc Computer Science', 'Wilfrid Laurier University — 20XX - Present'));
+            break;
+
+        case 'education':
+            const educationData = {
+                title: 'Wilfrid Laurier University',
+                details: [
+                    'Bachelor of Science (B.Sc.), Computer Science',
+                    'Aug 2024 – May 2028',
+                    '',
+                    'Key Coursework:',
+                    '• Data Structures & Algorithms',
+                    '• Python Programming',
+                    '• Advanced Functions',
+                    '• Calculus & Vectors',
+                    '• Linear Algebra',
+                    '• Discrete Mathematics',
+                    '• UI/UX Design',
+                    '• Database Principles'
+                ],
+            };
+            detailGrid.appendChild(createTile(educationData.title, educationData.details.join('\n')));
+            break;
+
+        case 'experience':
+            const experiences = [
+                {
+                    title: 'STEM Camp',
+                    role: 'Programming & Education Facilitator',
+                    period: 'Jun 2025 – Aug 2025 | GTA, ON',
+                    bullets: [
+                        'Taught 40+ daily campers coding and robotics with Edison robots (Python) and Micro:bit',
+                        'Introduced loops, events, and conditionals via hands-on design challenges',
+                        'Adapted activities for diverse age groups (7–14), maintained safety, and received positive feedback'
+                    ]
+                },
+                {
+                    title: 'Shoppers Drug Mart',
+                    role: 'Retail Associate',
+                    period: 'Aug 2023 – Jan 2024 | Burlington, ON',
+                    bullets: [
+                        'Managed 500+ SKUs, inventory, shipments, and merchandising layouts',
+                        'Processed $5,000+ daily transactions, resolved 30+ customer inquiries per day',
+                        'Completed 20+ closing shifts with accurate tills and store security'
+                    ]
+                },
+                {
+                    title: 'Harvey\'s',
+                    role: 'Sales Associate',
+                    period: 'Aug 2019 – Aug 2020 | Burlington, ON',
+                    bullets: [
+                        'Operated cash register and drive-thru (200+ transactions/shift)',
+                        'Prepared food orders, trained new staff, managed inventory and sanitation'
+                    ]
+                }
+            ];
+
+            experiences.forEach(exp => {
+                detailGrid.appendChild(createTile(
+                    `${exp.title} | ${exp.role}`,
+                    `${exp.period}\n\n${exp.bullets.map(b => '• ' + b).join('\n')}`
+                ));
+            });
+            break;
+        case 'projects':
+            if (projectsConfig.length === 0) {
+                debugLog('Projects overlay opened but projectsConfig empty, initializing...');
+                initializeProjects();
+            } else {
+                renderProjectsPreview();
+            }
+            
+            // Set up click handlers for project tiles
+            if (!detailGrid._hasProjectHandler) {
+                detailGrid.addEventListener('click', (ev) => {
+                    const tile = ev.target.closest('.project-tile');
+                    if (!tile) return;
+                    const repo = tile.dataset.repo;
+                    if (repo) {
+                        showProjectDetails(repo, {
+                            title: tile.querySelector('h4')?.textContent,
+                            desc: tile.querySelector('p')?.textContent
+                        });
+                    }
+                });
+                detailGrid._hasProjectHandler = true;
+            }
+            break;
+        default:
+            debugLog('Unknown detail type:', type);
+            return;
     }
 }
 
