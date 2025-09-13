@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omar Sakho's Portfolio</title>
+    <script defer src="config.js"></script>
     <script defer src="app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,9 +20,8 @@
 </head>
 
 <body>
-    <span> Error: Please view this on a larger screen. (=>800px) </span>
+    <span role="alert" class="viewport-error">Error: Please view this on a larger screen. (≥800px)</span>
     <div class="bg-img">
-        <hr class="scrollTime">
     </div>
     <div class="container">
         <div class="split">
@@ -109,25 +109,9 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="scrollBtn2">
-                        <button type="button" id="scroll3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-                                <path fill="none" stroke="white" stroke-width="2"
-                                    d="m2 15.999l10.173-9.824l9.824 10.173" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
 
                 <div class="section section3 hidden">
-                    <div class="scrollBtn2">
-                        <button type="button" id="scroll4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-                                <path fill="none" stroke="white" stroke-width="2"
-                                    d="m2 15.999l10.173-9.824l9.824 10.173" />
-                            </svg>
-                        </button>
-                    </div>
                     <div class="profile-card">
                         <div class="profile-image"></div>
                         <h2>Omar S</h2>
@@ -156,12 +140,23 @@
                         </div>
                     </div>
                     <div class="resumeInfo">
-                        <div class="resumeSec skills">Skills</div>
-                        <div class="resumeSec edu">Education</div>
-                        <div class="resumeSec exp">Experience</div>
-                        <div class="resumeSec proj">Projects</div>
+                        <button class="resumeSec skills" data-type="skills" aria-expanded="false">Skills</button>
+                        <button class="resumeSec edu" data-type="education" aria-expanded="false">Education</button>
+                        <button class="resumeSec exp" data-type="experience" aria-expanded="false">Experience</button>
+                        <button class="resumeSec proj" data-type="projects" aria-expanded="false">Projects</button>
+                    </div>
 
-
+                    <!-- Overlay panel for expanded detail views -->
+                    <div id="detailOverlay" class="detail-overlay" aria-hidden="true">
+                        <div class="detail-panel" id="detailPanel">
+                            <div class="detail-controls">
+                                <button id="detailClose" class="detail-close" aria-label="Close details">×</button>
+                            </div>
+                            <h3 id="detailTitle"></h3>
+                            <div id="detailGrid" class="detail-grid">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

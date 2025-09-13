@@ -1,19 +1,13 @@
 html,
 body {
     font-size: 62.5%;
-    height: 100%;
+    height: 100vh;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
     font-family: inter;
-
-}
-
-.gradient {
-    background: radial-gradient(circle, #7b4397, #dc2430);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    overflow: hidden;
+    scroll-behavior: smooth;
 }
 
 :root {
@@ -31,6 +25,57 @@ body {
     box-sizing: border-box;
     background-attachment: fixed;
     border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Minimal scrollbar styling for main screen */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+/* Firefox scrollbar styling */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) rgba(0,0,0,0.1);
+}
+
+.container {
+    height: 100vh;
+    position: relative;
+}
+
+.about-me {
+    width: 100%;
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.about-me::-webkit-scrollbar {
+    display: none;
+}
+
+.section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 /* grid background
@@ -70,17 +115,18 @@ body {
     display: grid;
     place-items: center;
     color: rgb(235, 231, 231);
+    height: 100vh;
     min-height: 100vh;
     font-size: 3em;
+    position: relative;
+    overflow: hidden;
 }
 
 .section2 {
-    max-height: 100vh;
-
+    height: 100vh;
     display: grid;
     grid-template-rows: repeat(10, 1fr);
     grid-template-areas:
-
         "."
         "."
         "."
@@ -91,11 +137,10 @@ body {
         "."
         "scroll2"
         "."
-
     ;
     color: rgb(235, 231, 231);
-    min-height: 100vh;
     font-size: 3em;
+    box-sizing: border-box;
 }
 
 .logos {
@@ -134,58 +179,41 @@ body {
     transform: translateY(0);
 }
 
-#scroll1 {
+#scroll1, #scroll2 {
     background: none;
     border: none;
     cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 1rem;
 }
 
-#scroll3,
-#scroll4 {
-    background: none;
-    border: none;
-    cursor: pointer;
-
-}
-
-#scroll2 {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-#scroll:hover {
-    background-color: rgb(255, 255, 255);
-    transition: all 1s ease-in;
-    transform: translateY(-5%);
+#scroll1:hover, #scroll2:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.2);
 }
 
 .scrollBtn {
-    color: ;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-weight: 100;
-    animation: bounce infinite 2s .5s;
+    font-weight: 300;
+    animation: bounce infinite 3s ease-in-out;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 4rem;
+    z-index: 10;
 }
 
-.scrollBtn2 {
-    color: ;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-weight: 100;
-    animation: bounce infinite 2s .5s;
-}
-
-.section1 .scrollBtn {
-    position: absolute;
-    top: 70vh;
+.scrollBtn span {
+    font-size: 1.6rem;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
 }
 
 .scrollBtnV2 {
-    grid-area: scroll2;
-
+    bottom: 4rem;
+    animation: bounce infinite 3s ease-in-out;
 }
 
 .imageFloat:nth-child(2) {
@@ -228,23 +256,15 @@ body {
     box-shadow: 25px 25px 5px #0000009f;
 }
 
-.scrollTime {
-    height: 10px;
-    width: 100%;
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0.664);
-    border: none;
-    scale: 0 1;
-    z-index: 100;
-    animation: Bar linear;
-    animation-timeline: scroll();
-    transform-origin: left;
-}
-
 .section3 {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 2fr;
-    min-height: 100vh;
+    grid-template-columns: 0.1fr minmax(300px, 1fr) minmax(400px, 2fr);
+    grid-template-areas: ". profile resume";
+    height: 100vh;
+    box-sizing: border-box;
+    gap: 3rem;
+    padding: 3rem 0;
+    overflow: hidden;
 }
 
 h2,
@@ -257,17 +277,21 @@ h1 {
 }
 
 .profile-card {
-    grid-column: 2;
-    background: rgb(80, 77, 77);
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 15px rgba(95, 94, 94, 0.2);
+    grid-area: profile;
+    background: linear-gradient(135deg, rgb(90, 87, 87), rgb(70, 67, 67));
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
     position: sticky;
-    top: -50vh;
+    top: 3rem;
+    height: min-content;
     transform-style: preserve-3d;
     transform:
         perspective(5000px) rotateY(var(--rotateY)) rotateX(var(--rotateX));
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .profile-card::before,
@@ -326,15 +350,369 @@ h1 {
 }
 
 .resumeInfo {
+    grid-area: resume;
     width: 100%;
     height: 100%;
     display: grid;
-    grid-column: 3 / 4;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 3rem;
+    padding: 2rem;
+    align-items: stretch;
+    justify-items: stretch;
 }
 
-.resumeInfo .resumeSec {}
+/* resumeSec rules defined below */
+.resumeInfo .resumeSec {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.resumeInfo .resumeSec::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.resumeInfo .resumeSec:hover::before {
+    opacity: 1;
+}
+
+.resumeInfo .skills {
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.15), rgba(63, 83, 225, 0.05));
+}
+
+.resumeInfo .edu {
+    background: linear-gradient(135deg, rgba(252, 82, 150, 0.15), rgba(227, 57, 125, 0.05));
+}
+
+.resumeInfo .exp {
+    background: linear-gradient(135deg, rgba(61, 216, 138, 0.15), rgba(36, 191, 113, 0.05));
+}
+
+.resumeInfo .proj {
+    background: linear-gradient(135deg, rgba(255, 172, 47, 0.15), rgba(230, 147, 22, 0.05));
+}
+
+.resumeInfo .resumeSec:focus,
+.resumeInfo .resumeSec:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 
+        0 15px 35px rgba(0,0,0,0.4),
+        0 0 25px rgba(255,255,255,0.05);
+}
+
+.resumeInfo .skills:hover {
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.25), rgba(63, 83, 225, 0.15));
+}
+
+.resumeInfo .edu:hover {
+    background: linear-gradient(135deg, rgba(252, 82, 150, 0.25), rgba(227, 57, 125, 0.15));
+}
+
+.resumeInfo .exp:hover {
+    background: linear-gradient(135deg, rgba(61, 216, 138, 0.25), rgba(36, 191, 113, 0.15));
+}
+
+.resumeInfo .proj:hover {
+    background: linear-gradient(135deg, rgba(255, 172, 47, 0.25), rgba(230, 147, 22, 0.15));
+}
+
+/* Projects preview on main page */
+#projectsPreview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    height: fit-content;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.preview-tile {
+    border-radius: 10px;
+    min-height: 120px;
+    padding: 1rem;
+    color: #fff;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    cursor: pointer;
+}
+.projects-preview .preview-tile {
+    background: rgba(255,255,255,0.03);
+    padding: 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    min-height: 140px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.preview-tile:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+}
+
+.preview-tile h4 { 
+    margin: 0; 
+    font-size: 1.6rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Overlay / detail panel */
+.detail-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+}
+.detail-overlay[aria-hidden="false"] {
+    display: flex;
+}
+.detail-panel {
+    width: min(1400px, 94%);
+    height: 90vh;
+    background: linear-gradient(135deg, rgba(30,30,30,0.97), rgba(20,20,20,0.98));
+    border-radius: 20px;
+    padding: 3rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 
+        0 25px 70px rgba(0,0,0,0.7),
+        0 0 30px rgba(0,0,0,0.5);
+    transform: scale(.96);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific styles for when showing project details */
+.detail-panel:has(.project-expanded) {
+    padding: 2rem;
+}
+
+.detail-panel h3 {
+    font-size: 2.4rem;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    width: 100%;
+}
+
+.detail-panel.expanded {
+    width: calc(100vw - 64px);
+    height: calc(100vh - 64px);
+    padding: 2rem;
+}
+
+.detail-panel #detailGrid {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Style for grid view (when showing project tiles) */
+#detailGrid:not(:has(.project-expanded)) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+/* Style for README view (when showing project details) */
+#detailGrid:has(.project-expanded) {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 140px);
+}
+
+.detail-controls {
+    position: absolute;
+    top: 8px;
+    right: 44px;
+    display: flex;
+    gap: 8px;
+}
+.detail-toggle {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.detail-toggle:hover { background: rgba(255,255,255,0.07); }
+
+/* Hide the Load pinned control by default; JS shows it only for Projects */
+#detailLoadPinned { display: none; }
+
+.pinned-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.pinned-form input {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+.pinned-form button {
+    background: rgba(255,255,255,0.06);
+    border: none;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.detail-tile {
+    background: rgba(255,255,255,0.03);
+    padding: 1rem;
+    border-radius: 10px;
+    color: #fff;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+}
+.detail-tile .thumb-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.45));
+    border-radius: 10px;
+}
+.detail-tile h4, .detail-tile p { position: relative; z-index: 2; }
+.detail-overlay[aria-hidden="false"] .detail-panel {
+    transform: scale(1);
+}
+.detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 2.4rem;
+    cursor: pointer;
+}
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    width: 100%;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px);
+}
+
+#detailGrid {
+    width: 100%;
+    height: calc(100% - 60px); /* Account for title */
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin-top: 2rem;
+}
+
+/* Grid layout only when showing project tiles */
+#detailGrid:not(:has(.project-expanded)) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.detail-tile {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    padding: 2rem;
+    border-radius: 16px;
+    color: #fff;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+}
+
+.detail-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+    z-index: 1;
+}
+
+.detail-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.45),
+        0 0 20px rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.08);
+}
+
+.detail-tile h4 { 
+    margin: 0 0 1rem 0; 
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.detail-tile p { 
+    margin: 0; 
+    font-size: 1.4rem; 
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
 
 .hidden {
     opacity: 0;
@@ -408,4 +786,153 @@ h1 {
         display: inline-block;
         content: "Error: Please view this on a larger screen";
     }
+}
+
+/* Project expanded view inside detail panel */
+.project-expanded {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.project-expanded h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.project-expanded p {
+    margin: 0;
+    color: #ddd;
+    font-size: 1.4rem;
+}
+.project-readme {
+    background: rgba(0,0,0,0.12);
+    border-radius: 8px;
+    flex: 1;
+    overflow-y: auto;
+    color: #eaeaea;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 2rem;
+}
+
+.readme-content {
+    padding: 3rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.readme-content h1 {
+    font-size: 2.8rem;
+    margin: 0 0 2rem 0;
+    color: #fff;
+    width: 100%;
+}
+
+.readme-content h2 {
+    font-size: 2.2rem;
+    margin: 2rem 0 1rem 0;
+    color: #fff;
+    width: 100%;
+}
+
+.readme-content h3 {
+    font-size: 1.8rem;
+    margin: 1.5rem 0 1rem 0;
+    color: #fff;
+}
+
+.readme-content p {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+.readme-content ul, .readme-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.readme-content li {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.readme-content code {
+    background: rgba(255,255,255,0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.readme-content strong {
+    color: #fff;
+    font-weight: 600;
+}
+.project-readme img { max-width: 100%; height: auto; }
+
+/* Minimal scrollbar styling */
+.project-readme::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.project-readme::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.project-readme::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+}
+
+.project-readme::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+.project-stats {
+    color: #ffd54f;
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+}
+
+.project-links {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.project-links a {
+    color: #9ad1ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.project-links a:hover {
+    text-decoration: underline;
+}
+.project-back {
+    margin-top: auto;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+.project-back:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-1px);
 }
