@@ -154,6 +154,7 @@ body {
 
 .about {
     grid-area: about;
+    text-align: center;
 }
 
 .head {
@@ -437,6 +438,7 @@ h1 {
 .profile-image {
     width: 100px;
     height: 100px;
+    background-image: url(src/image.png);
     background: gray;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -518,19 +520,19 @@ h1 {
 }
 
 .resumeInfo .skills {
-    background: linear-gradient(135deg, rgba(88, 108, 250, 0.15), rgba(63, 83, 225, 0.05));
-}
-
-.resumeInfo .edu {
     background: linear-gradient(135deg, rgba(252, 82, 150, 0.15), rgba(227, 57, 125, 0.05));
 }
 
+.resumeInfo .edu {
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.15), rgba(63, 83, 225, 0.05));
+}
+
 .resumeInfo .exp {
-    background: linear-gradient(135deg, rgba(61, 216, 138, 0.15), rgba(36, 191, 113, 0.05));
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.15), rgba(63, 83, 225, 0.05));
 }
 
 .resumeInfo .proj {
-    background: linear-gradient(135deg, rgba(255, 172, 47, 0.15), rgba(230, 147, 22, 0.05));
+    background: linear-gradient(135deg, rgba(252, 82, 150, 0.15), rgba(227, 57, 125, 0.05));
 }
 
 .resumeInfo .resumeSec:focus,
@@ -542,19 +544,19 @@ h1 {
 }
 
 .resumeInfo .skills:hover {
-    background: linear-gradient(135deg, rgba(88, 108, 250, 0.25), rgba(63, 83, 225, 0.15));
-}
-
-.resumeInfo .edu:hover {
     background: linear-gradient(135deg, rgba(252, 82, 150, 0.25), rgba(227, 57, 125, 0.15));
 }
 
+.resumeInfo .edu:hover {
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.25), rgba(63, 83, 225, 0.15));
+}
+
 .resumeInfo .exp:hover {
-    background: linear-gradient(135deg, rgba(61, 216, 138, 0.25), rgba(36, 191, 113, 0.15));
+    background: linear-gradient(135deg, rgba(88, 108, 250, 0.25), rgba(63, 83, 225, 0.15));
 }
 
 .resumeInfo .proj:hover {
-    background: linear-gradient(135deg, rgba(255, 172, 47, 0.25), rgba(230, 147, 22, 0.15));
+    background: linear-gradient(135deg, rgba(252, 82, 150, 0.25), rgba(227, 57, 125, 0.15));
 }
 
 /* Projects preview on main page */

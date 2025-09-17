@@ -228,22 +228,9 @@ function openOverlay(type) {
         case 'education':
             const educationData = {
                 title: 'Wilfrid Laurier University',
-                details: [
-                    'Bachelor of Science (B.Sc.), Computer Science',
-                    'Aug 2024 – May 2028',
-                    '',
-                    'Key Coursework:',
-                    '• Data Structures & Algorithms',
-                    '• Python Programming',
-                    '• Advanced Functions',
-                    '• Calculus & Vectors',
-                    '• Linear Algebra',
-                    '• Discrete Mathematics',
-                    '• UI/UX Design',
-                    '• Database Principles'
-                ],
+                desc: "Bachelor of Science (B.Sc.) in Computer Science\nAug 2024 – May 2028\n\nKey Coursework:\n- Python Programming\n- Data Structures & Algorithms\n- Object-Oriented Programming\n- Software Engineering\n- Discrete Structures for Computer Science\n- Digital Electronics\n- Intro to Microprocessors\n- Database Principles\n- UI/UX Design\n- VBA Automation\n- Advanced Functions & Calculus"
             };
-            detailGrid.appendChild(createTile(educationData.title, educationData.details.join('\n')));
+            detailGrid.appendChild(createTile(educationData.title, educationData.desc));
             break;
 
         case 'experience':
