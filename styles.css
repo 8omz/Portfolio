@@ -36,23 +36,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 /* Firefox scrollbar styling */
 * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.15) rgba(0,0,0,0.1);
+    scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
 }
 
 .container {
@@ -64,8 +64,10 @@ body {
     width: 100%;
     height: 100vh;
     scroll-snap-type: y mandatory;
-    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
-    scrollbar-width: none;  /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -180,7 +182,8 @@ body {
     transform: translateY(0);
 }
 
-#scroll1, #scroll2 {
+#scroll1,
+#scroll2 {
     background: none;
     border: none;
     cursor: pointer;
@@ -188,7 +191,8 @@ body {
     padding: 1rem;
 }
 
-#scroll1:hover, #scroll2:hover {
+#scroll1:hover,
+#scroll2:hover {
     transform: translateY(-5px);
     filter: brightness(1.2);
 }
@@ -400,7 +404,7 @@ h1 {
     background: linear-gradient(135deg, rgb(90, 87, 87), rgb(70, 67, 67));
     padding: 3rem;
     border-radius: 20px;
-    box-shadow: 
+    box-shadow:
         0 10px 30px rgba(0, 0, 0, 0.3),
         0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -487,7 +491,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
     border-radius: 20px;
     padding: 4rem 2rem;
     font-size: 2.4rem;
@@ -495,12 +499,12 @@ h1 {
     color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.05);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
     min-height: 200px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .resumeInfo .resumeSec::before {
@@ -510,7 +514,7 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 100%);
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -538,9 +542,9 @@ h1 {
 .resumeInfo .resumeSec:focus,
 .resumeInfo .resumeSec:hover {
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 
-        0 15px 35px rgba(0,0,0,0.4),
-        0 0 25px rgba(255,255,255,0.05);
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(255, 255, 255, 0.05);
 }
 
 .resumeInfo .skills:hover {
@@ -581,11 +585,12 @@ h1 {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     cursor: pointer;
 }
+
 .projects-preview .preview-tile {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
     padding: 1.5rem;
     border-radius: 10px;
     color: #fff;
@@ -595,20 +600,20 @@ h1 {
     justify-content: flex-start;
     background-size: cover;
     background-position: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .preview-tile:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
 }
 
-.preview-tile h4 { 
-    margin: 0; 
+.preview-tile h4 {
+    margin: 0;
     font-size: 1.6rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Overlay / detail panel */
@@ -618,26 +623,28 @@ h1 {
     display: none;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 2000;
 }
+
 .detail-overlay[aria-hidden="false"] {
     display: flex;
 }
+
 .detail-panel {
     width: min(1400px, 94%);
     height: 90vh;
-    background: linear-gradient(135deg, rgba(30,30,30,0.97), rgba(20,20,20,0.98));
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.97), rgba(20, 20, 20, 0.98));
     border-radius: 20px;
     padding: 3rem;
     overflow: hidden;
     position: relative;
-    box-shadow: 
-        0 25px 70px rgba(0,0,0,0.7),
-        0 0 30px rgba(0,0,0,0.5);
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(0, 0, 0, 0.5);
     transform: scale(.96);
     transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
 }
@@ -651,7 +658,7 @@ h1 {
     font-size: 2.4rem;
     margin: 0;
     color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     width: 100%;
 }
 
@@ -692,33 +699,41 @@ h1 {
     display: flex;
     gap: 8px;
 }
+
 .detail-toggle {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     color: #fff;
     padding: 6px 8px;
     border-radius: 6px;
     cursor: pointer;
 }
-.detail-toggle:hover { background: rgba(255,255,255,0.07); }
+
+.detail-toggle:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
 
 /* Hide the Load pinned control by default; JS shows it only for Projects */
-#detailLoadPinned { display: none; }
+#detailLoadPinned {
+    display: none;
+}
 
 .pinned-form {
     display: flex;
     gap: 8px;
     align-items: center;
 }
+
 .pinned-form input {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     color: #fff;
     padding: 6px 8px;
     border-radius: 6px;
 }
+
 .pinned-form button {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
     border: none;
     color: #fff;
     padding: 6px 8px;
@@ -727,7 +742,7 @@ h1 {
 }
 
 .detail-tile {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
     padding: 1rem;
     border-radius: 10px;
     color: #fff;
@@ -738,16 +753,24 @@ h1 {
     background-size: cover;
     background-position: center;
 }
+
 .detail-tile .thumb-placeholder {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.45));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45));
     border-radius: 10px;
 }
-.detail-tile h4, .detail-tile p { position: relative; z-index: 2; }
+
+.detail-tile h4,
+.detail-tile p {
+    position: relative;
+    z-index: 2;
+}
+
 .detail-overlay[aria-hidden="false"] .detail-panel {
     transform: scale(1);
 }
+
 .detail-close {
     position: absolute;
     top: 12px;
@@ -758,6 +781,7 @@ h1 {
     font-size: 2.4rem;
     cursor: pointer;
 }
+
 .detail-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -771,7 +795,8 @@ h1 {
 
 #detailGrid {
     width: 100%;
-    height: calc(100% - 60px); /* Account for title */
+    height: calc(100% - 60px);
+    /* Account for title */
     overflow-y: auto;
     box-sizing: border-box;
     margin-top: 2rem;
@@ -785,7 +810,7 @@ h1 {
 }
 
 .detail-tile {
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
     padding: 1rem;
     border-radius: 10px;
     color: #fff;
@@ -798,10 +823,210 @@ h1 {
 }
 
 /* Project tiles keep their special styling */
+
+/* --- Project Slide / Scroll Snap Styles --- */
+
+/* Container for slides - vertical scroll with snap */
+#detailGrid:has(.project-slide) {
+    display: block;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.project-slide {
+    width: 100%;
+    min-height: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    padding: 3rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+}
+
+.project-slide.active-slide {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header area of the slide (Title, Links, Stats) */
+.project-slide-header {
+    flex: 0 0 auto;
+    margin-bottom: 2rem;
+    text-align: left;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 2rem;
+    padding-right: 60px;
+    /* Space for close button */
+}
+
+.project-slide-header h3 {
+    font-size: 3.2rem;
+    margin: 0 0 1rem 0;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.project-slide-header .desc {
+    font-size: 1.6rem;
+    color: #ccc;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+.project-slide-meta {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 1.4rem;
+}
+
+.project-slide-meta a {
+    color: #649ad2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.project-slide-meta a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* README scrollable content area */
+.project-readme-area {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-right: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Markdown styling within readme */
+.readme-content {
+    font-size: 1.5rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+}
+
+.readme-content h1,
+.readme-content h2,
+.readme-content h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.3em;
+}
+
+.readme-content h1 {
+    font-size: 2.2em;
+}
+
+.readme-content h2 {
+    font-size: 1.8em;
+}
+
+.readme-content h3 {
+    font-size: 1.5em;
+}
+
+.readme-content code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.readme-content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.readme-content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+.readme-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+/* Slideshow Navigation Buttons */
+.project-nav-container {
+    position: absolute;
+    /* Relative to detailPanel */
+    bottom: 2rem;
+    right: 3rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 20;
+}
+
+.project-nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.project-nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.project-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+    transform: none;
+}
+
+.detail-panel {
+    /* Ensure panel is positioned for absolute children */
+    position: relative;
+}
+
 .project-tile {
     background-size: cover !important;
     background-position: center !important;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     overflow: hidden;
 }
 
@@ -809,7 +1034,7 @@ h1 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 100%);
     z-index: 1;
 }
 
@@ -821,34 +1046,34 @@ h1 {
 
 .project-tile:hover {
     transform: translateY(-5px);
-    box-shadow: 
-        0 10px 30px rgba(0,0,0,0.45),
-        0 0 20px rgba(255,255,255,0.1);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 /* Non-project tile hover effect */
 .detail-tile:not(.project-tile):hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 
-        0 15px 35px rgba(0,0,0,0.45),
-        0 0 25px rgba(255,255,255,0.1);
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.45),
+        0 0 25px rgba(255, 255, 255, 0.1);
 }
 
-.detail-tile h4 { 
-    margin: 0 0 1rem 0; 
+.detail-tile h4 {
+    margin: 0 0 1rem 0;
     font-size: 1.8rem;
     position: relative;
     z-index: 2;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.detail-tile p { 
-    margin: 0; 
-    font-size: 1.4rem; 
+.detail-tile p {
+    margin: 0;
+    font-size: 1.4rem;
     opacity: 0.9;
     position: relative;
     z-index: 2;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Section-specific styles */
@@ -894,6 +1119,7 @@ h1 {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -971,18 +1197,21 @@ h1 {
     box-sizing: border-box;
     overflow: hidden;
 }
+
 .project-expanded h3 {
     margin: 0;
     font-size: 1.6rem;
     font-weight: 600;
 }
+
 .project-expanded p {
     margin: 0;
     color: #ddd;
     font-size: 1.4rem;
 }
+
 .project-readme {
-    background: rgba(0,0,0,0.12);
+    background: rgba(0, 0, 0, 0.12);
     border-radius: 8px;
     flex: 1;
     overflow-y: auto;
@@ -1027,7 +1256,8 @@ h1 {
     line-height: 1.6;
 }
 
-.readme-content ul, .readme-content ol {
+.readme-content ul,
+.readme-content ol {
     margin: 1rem 0;
     padding-left: 2rem;
 }
@@ -1038,7 +1268,7 @@ h1 {
 }
 
 .readme-content code {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     padding: 0.2rem 0.4rem;
     border-radius: 3px;
     font-family: monospace;
@@ -1048,7 +1278,11 @@ h1 {
     color: #fff;
     font-weight: 600;
 }
-.project-readme img { max-width: 100%; height: auto; }
+
+.project-readme img {
+    max-width: 100%;
+    height: auto;
+}
 
 /* Minimal scrollbar styling */
 .project-readme::-webkit-scrollbar {
@@ -1057,17 +1291,17 @@ h1 {
 }
 
 .project-readme::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 4px;
 }
 
 .project-readme::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 4px;
 }
 
 .project-readme::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .project-stats {
@@ -1089,14 +1323,16 @@ h1 {
     font-weight: 600;
     font-size: 1.4rem;
 }
+
 .project-links a:hover {
     text-decoration: underline;
 }
+
 .project-back {
     margin-top: auto;
     padding: 1rem 2rem;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: #fff;
     border-radius: 6px;
     cursor: pointer;
@@ -1104,8 +1340,9 @@ h1 {
     transition: all 0.2s ease;
     align-self: flex-start;
 }
+
 .project-back:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-1px);
 }

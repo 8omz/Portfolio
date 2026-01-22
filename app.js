@@ -91,16 +91,16 @@ async function populatePinned(username, token) {
             },
             body: JSON.stringify({ query, variables: { login: username } })
         });
-    const text = await res.text();
-    debugLog('GraphQL response:', { status: res.status, text });
-    if (!res.ok) {
-        throw new Error(`GraphQL request failed: ${res.status} ${res.statusText}\n${text}`);
-    }
-    const json = JSON.parse(text);
-    if (json.errors) {
-        throw new Error('GraphQL errors: ' + json.errors.map(e => e.message).join('; '));
-    }
-    debugLog('GraphQL data:', json.data);
+        const text = await res.text();
+        debugLog('GraphQL response:', { status: res.status, text });
+        if (!res.ok) {
+            throw new Error(`GraphQL request failed: ${res.status} ${res.statusText}\n${text}`);
+        }
+        const json = JSON.parse(text);
+        if (json.errors) {
+            throw new Error('GraphQL errors: ' + json.errors.map(e => e.message).join('; '));
+        }
+        debugLog('GraphQL data:', json.data);
         const edges = json.data.user.pinnedItems.edges || [];
         // Build projectsConfig from pinned items
         const newConfig = await Promise.all(edges.map(async e => {
@@ -171,10 +171,10 @@ function clearDetailGrid() {
 function createTile(title, desc, options = {}) {
     const t = document.createElement('div');
     t.className = 'detail-tile';
-    
+
     const h = document.createElement('h3');
     h.textContent = title;
-    
+
     const p = document.createElement('p');
     p.textContent = desc;
     if (options.repo) {
@@ -192,9 +192,9 @@ function openOverlay(type) {
     document.body.style.overflow = 'hidden';
     detailTitle.textContent = type[0].toUpperCase() + type.slice(1);
     clearDetailGrid();
-    
+
     // Get config based on type
-    switch(type) {
+    switch (type) {
         case 'skills':
             // Skills section with better categorization
             const skillsCategories = [
@@ -278,23 +278,7 @@ function openOverlay(type) {
                 debugLog('Projects overlay opened but projectsConfig empty, initializing...');
                 initializeProjects();
             } else {
-                renderProjectsPreview();
-            }
-            
-            // Set up click handlers for project tiles
-            if (!detailGrid._hasProjectHandler) {
-                detailGrid.addEventListener('click', (ev) => {
-                    const tile = ev.target.closest('.project-tile');
-                    if (!tile) return;
-                    const repo = tile.dataset.repo;
-                    if (repo) {
-                        showProjectDetails(repo, {
-                            title: tile.querySelector('h4')?.textContent,
-                            desc: tile.querySelector('p')?.textContent
-                        });
-                    }
-                });
-                detailGrid._hasProjectHandler = true;
+                renderProjectsSlides();
             }
             break;
         default:
@@ -311,6 +295,14 @@ function closeOverlay() {
     // hide load pinned button
     const loadBtn = document.getElementById('detailLoadPinned');
     if (loadBtn) loadBtn.style.display = 'none';
+
+    // Remove nav buttons if they exist
+    const nav = document.getElementById('projectNav');
+    if (nav) nav.remove();
+
+    // Remove project mode class
+    const panel = document.getElementById('detailPanel');
+    if (panel) panel.classList.remove('project-mode');
 }
 
 function showProjectDetails(repoFullName, fallback = {}) {
@@ -401,11 +393,11 @@ function showProjectDetails(repoFullName, fallback = {}) {
                     // Convert GitHub's article format to a simpler div structure
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = readmeHtml;
-                    
+
                     // Create our own simpler structure
                     const cleanContent = document.createElement('div');
                     cleanContent.className = 'readme-content';
-                    
+
                     // Process main content
                     const articleContent = tempDiv.querySelector('.markdown-body');
                     if (articleContent) {
@@ -415,7 +407,7 @@ function showProjectDetails(repoFullName, fallback = {}) {
                             h.textContent = heading.textContent.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/, '');
                             cleanContent.appendChild(h);
                         });
-                        
+
                         // Process paragraphs and lists
                         articleContent.querySelectorAll('p, ul, ol').forEach(elem => {
                             if (elem.tagName === 'P') {
@@ -433,7 +425,7 @@ function showProjectDetails(repoFullName, fallback = {}) {
                             }
                         });
                     }
-                    
+
                     readmeContainer.innerHTML = '';
                     readmeContainer.appendChild(cleanContent);
                 })
@@ -523,35 +515,117 @@ async function autoPopulateOwnerRepos() {
         }));
         console.info('Auto-populated projectsConfig with repos for', owner);
         // render preview tiles
-        renderProjectsPreview();
+        renderProjectsSlides();
     } catch (err) {
         console.error('Auto-populate failed', err);
     }
 }
 
-function renderProjectsPreview() {
+function renderProjectsSlides() {
     const detailGrid = document.getElementById('detailGrid');
-    if (!detailGrid) {
-        debugLog('detailGrid element not found');
-        return;
-    }
-    
+    if (!detailGrid) return;
+
     // Clear container
     detailGrid.innerHTML = '';
-    debugLog('Rendering projects preview, config:', projectsConfig);
-    
-    // Render projects in the detail grid
-    projectsConfig.forEach((p) => {
-        const detailTile = createTile(p.title || p.repo, p.desc || '', { 
-            repo: p.repo, 
-            thumb: p.thumb,
-            thumbnail: p.thumb // Support both thumb and thumbnail properties
-        });
-        
-        // Ensure proper sizing and visibility
-        detailTile.style.minHeight = '200px';
-        detailGrid.appendChild(detailTile);
+
+    debugLog('Rendering projects slides, config:', projectsConfig);
+
+    if (projectsConfig.length === 0) {
+        detailGrid.innerHTML = '<p style="color: #ccc; text-align: center; padding: 2rem;">No projects found.</p>';
+        return;
+    }
+
+    // Render each project as a full slide (all visible for scrolling)
+    projectsConfig.forEach((p, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'project-slide';
+        slide.dataset.index = index;
+
+        // --- Header Section ---
+        const header = document.createElement('div');
+        header.className = 'project-slide-header';
+
+        const title = document.createElement('h3');
+        title.textContent = p.title || p.repo;
+
+        const desc = document.createElement('p');
+        desc.className = 'desc';
+        desc.textContent = p.desc || 'No description available.';
+
+        const meta = document.createElement('div');
+        meta.className = 'project-slide-meta';
+        meta.innerHTML = `<span>⭐ ${p.stats.stars}</span> <span>🍴 ${p.stats.forks}</span>`;
+
+        // Links
+        const ghLink = document.createElement('a');
+        ghLink.href = `https://github.com/${p.repo}`;
+        ghLink.target = '_blank';
+        ghLink.rel = 'noopener noreferrer';
+        ghLink.textContent = 'View on GitHub';
+        meta.appendChild(ghLink);
+
+        header.appendChild(title);
+        header.appendChild(desc);
+        header.appendChild(meta);
+
+        // --- Readme Section ---
+        const readmeArea = document.createElement('div');
+        readmeArea.className = 'project-readme-area';
+        readmeArea.innerHTML = '<p style="color: #888; text-align: center; margin-top: 2rem;">Loading README...</p>';
+
+        slide.appendChild(header);
+        slide.appendChild(readmeArea);
+        detailGrid.appendChild(slide);
+
+        // Fetch README content
+        fetchAndRenderReadme(p.repo, readmeArea);
     });
+}
+
+function fetchAndRenderReadme(repoFullName, container) {
+    const readmeUrl = `https://api.github.com/repos/${repoFullName}/readme`;
+    const headers = { Accept: 'application/vnd.github.v3.html+json' };
+    if (window && window.GITHUB_TOKEN) headers['Authorization'] = `token ${window.GITHUB_TOKEN}`;
+
+    fetch(readmeUrl, { headers })
+        .then(res => {
+            if (!res.ok) throw new Error('No readme found');
+            return res.text();
+        })
+        .then(html => {
+            // Clean slightly
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Create clean container
+            const content = document.createElement('div');
+            content.className = 'readme-content';
+
+            const article = tempDiv.querySelector('.markdown-body') || tempDiv;
+
+            // Extract useful elements safely
+            // We'll just take the whole inner HTML of the markdown body if it exists, otherwise the whole thing
+            // But stripping some large headers might be handled by CSS or here
+            content.innerHTML = article.innerHTML;
+
+            // Fix relative images to absolute if possible (basic attempt)
+            content.querySelectorAll('img').forEach(img => {
+                const src = img.getAttribute('src');
+                if (src && !src.startsWith('http') && !src.startsWith('data:')) {
+                    // Convert relative path to raw.githubusercontent path
+                    // usage: https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}
+                    // We assume 'main' or 'master' usually, but without that info it's hard.
+                    // Safer to just try 'main'
+                    img.src = `https://raw.githubusercontent.com/${repoFullName}/main/${src}`;
+                }
+            });
+
+            container.innerHTML = '';
+            container.appendChild(content);
+        })
+        .catch(err => {
+            container.innerHTML = '<p style="color: #666; text-align: center; margin-top: 2rem;">README not available.</p>';
+        });
 }
 
 // Ensure reload always starts at top and overlay is closed
@@ -562,14 +636,14 @@ async function initializeProjects() {
     debugLog('Initializing projects...');
     const cfgToken = (window && window.GITHUB_TOKEN) ? window.GITHUB_TOKEN : null;
     debugLog('Token status:', cfgToken ? 'present' : 'missing');
-    
+
     try {
         if (cfgToken) {
             debugLog('Attempting to load pinned repos first...');
             const ok = await populatePinned('8omz', cfgToken);
             if (ok) {
                 debugLog('Pinned repos loaded successfully');
-                renderProjectsPreview();
+                renderProjectsSlides();
                 return;
             }
         }
@@ -601,9 +675,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 window.addEventListener('load', () => {
     debugLog('Window loaded');
     window.scrollTo(0, 0);
-    try { 
+    try {
         closeOverlay();
-    } catch (e) { 
+    } catch (e) {
         debugLog('Error during window.load:', e);
     }
 });
