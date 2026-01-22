@@ -1,12 +1,12 @@
 // ===================================
-// THEME TOGGLE SYSTEM
+// THEME TOGGLE SYSTEM (Light/Dark Mode)
 // ===================================
 
 // Load saved theme on page load
 document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'vibrant';
-    if (savedTheme === 'minimal') {
-        document.body.classList.add('theme-minimal');
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('theme-dark');
     }
 });
 
@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('theme-minimal');
-        const currentTheme = document.body.classList.contains('theme-minimal') ? 'minimal' : 'vibrant';
+        document.body.classList.toggle('theme-dark');
+        const currentTheme = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
         localStorage.setItem('portfolio-theme', currentTheme);
 
         // Optional: Add a subtle animation
@@ -89,8 +89,8 @@ if (sketchCanvas) {
 
     // Mouse Down - Left Click (button 0)
     window.addEventListener('mousedown', (e) => {
-        // Only active in minimal mode and left click
-        if (document.body.classList.contains('theme-minimal') && e.button === 0) {
+        // Only active on left click
+        if (e.button === 0) {
             // Check if we are clicking on an interactive element (link/button)
             if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('#themeToggle')) {
                 return;
@@ -152,13 +152,17 @@ function scrollAndShow(section) {
     }
 }
 
-scrollDownClick.onclick = () => scrollAndShow(section2);
-scrollDownClick2.onclick = () => scrollAndShow(section3);
-// Visual effect for Profile card
-const profileCard = document.querySelector(".profile-card")
-document.addEventListener("mousemove", (e) => {
-    rotateElement(e, profileCard)
-})
+// Only set onclick if elements exist (they don't in minimal theme)
+if (scrollDownClick) scrollDownClick.onclick = () => scrollAndShow(section2);
+if (scrollDownClick2) scrollDownClick2.onclick = () => scrollAndShow(section3);
+
+// Visual effect for Profile card (only if it exists)
+const profileCard = document.querySelector(".profile-card");
+if (profileCard) {
+    document.addEventListener("mousemove", (e) => {
+        rotateElement(e, profileCard);
+    });
+}
 function rotateElement(event, element) {
     const x = event.clientX
     const y = event.clientY
@@ -287,23 +291,6 @@ function clearDetailGrid() {
     detailGrid.innerHTML = '';
 }
 
-function createTile(title, desc, options = {}) {
-    const t = document.createElement('div');
-    t.className = 'detail-tile';
-
-    const h = document.createElement('h3');
-    h.textContent = title;
-
-    const p = document.createElement('p');
-    p.textContent = desc;
-    if (options.repo) {
-        t.dataset.repo = options.repo; // e.g. "owner/repo"
-        t.classList.add('project-tile');
-    }
-    t.appendChild(h); t.appendChild(p);
-    return t;
-}
-
 function openOverlay(type) {
     debugLog('Opening overlay:', type);
     // show overlay and disable background scrolling while open
@@ -405,6 +392,7 @@ function openOverlay(type) {
             return;
     }
 }
+
 // Close button handler
 function closeOverlay() {
     overlay.setAttribute('aria-hidden', 'true');
@@ -422,6 +410,160 @@ function closeOverlay() {
     // Remove project mode class
     const panel = document.getElementById('detailPanel');
     if (panel) panel.classList.remove('project-mode');
+}
+
+function createTile(title, desc, options = {}) {
+    const t = document.createElement('div');
+    t.className = 'detail-tile';
+
+    const h = document.createElement('h3');
+    h.textContent = title;
+
+    const p = document.createElement('p');
+    p.textContent = desc;
+    if (options.repo) {
+        t.dataset.repo = options.repo; // e.g. "owner/repo"
+        t.classList.add('project-tile');
+    }
+    t.appendChild(h); t.appendChild(p);
+    return t;
+}
+
+function openOverlay(type) {
+    debugLog('Opening overlay:', type);
+
+    // 1. Make it display:flex first (so it exists)
+    overlay.style.display = 'flex';
+
+    // 2. Force reflow to ensure browser registers display change before transition
+    void overlay.offsetHeight;
+
+    // 3. Trigger fade-in and lock body scroll
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    detailTitle.textContent = type[0].toUpperCase() + type.slice(1);
+    clearDetailGrid();
+
+    // Get config based on type
+    switch (type) {
+        case 'skills':
+            // Skills section with better categorization
+            const skillsCategories = [
+                {
+                    title: 'Programming Languages',
+                    items: ['Python', 'JavaScript', 'C/C++', 'SQL', 'HTML/CSS', 'TypeScript', 'VBA', 'MATLAB', 'Bash']
+                },
+                {
+                    title: 'Frameworks & Libraries',
+                    items: ['React', 'Node.js', 'Flask', 'FastAPI', 'Material-UI', 'Express', 'Tailwind CSS']
+                },
+                {
+                    title: 'Tools & Technologies',
+                    items: ['Git', 'Docker', 'Firebase', 'VS Code', 'PyDev', 'Figma', 'Eclipse', 'Postman', 'GitHub Actions']
+                },
+                {
+                    title: 'Core Concepts',
+                    items: ['Data Structures & Algorithms', 'API Integration', 'Version Control', 'Agile Development', 'Test-Driven Development', 'REST Architecture']
+                },
+                {
+                    title: 'Additional Skills',
+                    items: ['English (Native)', 'French (Bilingual)', 'Responsive Web Design', 'Python DSA Certification']
+                }
+            ];
+
+            skillsCategories.forEach(category => {
+                detailGrid.appendChild(createTile(category.title, category.items.join(' • ')));
+            });
+            break;
+
+        case 'education':
+            const educationData = {
+                title: 'Wilfrid Laurier University',
+                desc: "Bachelor of Science (B.Sc.) in Computer Science\nAug 2024 – May 2028\n\nKey Coursework:\n- Python Programming\n- Data Structures & Algorithms\n- Object-Oriented Programming\n- Software Engineering\n- Discrete Structures for Computer Science\n- Digital Electronics\n- Intro to Microprocessors\n- Database Principles\n- UI/UX Design\n- VBA Automation\n- Advanced Functions & Calculus"
+            };
+            detailGrid.appendChild(createTile(educationData.title, educationData.desc));
+            break;
+
+        case 'experience':
+            const experiences = [
+                {
+                    title: 'STEM Camp',
+                    role: 'Programming & Education Facilitator',
+                    period: 'Jun 2025 – Aug 2025 | GTA, ON',
+                    bullets: [
+                        'Taught 40+ daily campers coding and robotics with Edison robots (Python) and Micro:bit',
+                        'Introduced loops, events, and conditionals via hands-on design challenges',
+                        'Adapted activities for diverse age groups (7–14), maintained safety, and received positive feedback'
+                    ]
+                },
+                {
+                    title: 'Shoppers Drug Mart',
+                    role: 'Retail Associate',
+                    period: 'Aug 2023 – Jan 2024 | Burlington, ON',
+                    bullets: [
+                        'Managed 500+ SKUs, inventory, shipments, and merchandising layouts',
+                        'Processed $5,000+ daily transactions, resolved 30+ customer inquiries per day',
+                        'Completed 20+ closing shifts with accurate tills and store security'
+                    ]
+                },
+                {
+                    title: 'Harvey\'s',
+                    role: 'Sales Associate',
+                    period: 'Aug 2019 – Aug 2020 | Burlington, ON',
+                    bullets: [
+                        'Operated cash register and drive-thru (200+ transactions/shift)',
+                        'Prepared food orders, trained new staff, managed inventory and sanitation'
+                    ]
+                }
+            ];
+
+            experiences.forEach(exp => {
+                detailGrid.appendChild(createTile(
+                    `${exp.title} | ${exp.role}`,
+                    `${exp.period}\n\n${exp.bullets.map(b => '• ' + b).join('\n')}`
+                ));
+            });
+            break;
+        case 'projects':
+            // Add project-mode class for vertical scrolling
+            detailPanel.classList.add('project-mode');
+
+            if (projectsConfig.length === 0) {
+                debugLog('Projects overlay opened but projectsConfig empty, initializing...');
+                autoPopulateOwnerRepos();
+            } else {
+                renderProjectsSlides();
+            }
+            break;
+        default:
+            debugLog('Unknown detail type:', type);
+            return;
+    }
+}
+// Close button handler
+function closeOverlay() {
+    overlay.setAttribute('aria-hidden', 'true');
+    // re-enable background scrolling immediately
+    document.body.style.overflow = '';
+
+    // Wait for transition to finish before clearing content and hiding
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        clearDetailGrid();
+
+        // hide load pinned button
+        const loadBtn = document.getElementById('detailLoadPinned');
+        if (loadBtn) loadBtn.style.display = 'none';
+
+        // Remove nav buttons if they exist
+        const nav = document.getElementById('projectNav');
+        if (nav) nav.remove();
+
+        // Remove project mode class
+        const panel = document.getElementById('detailPanel');
+        if (panel) panel.classList.remove('project-mode');
+    }, 300); // Matches CSS transition duration
 }
 
 function showProjectDetails(repoFullName, fallback = {}) {
@@ -614,6 +756,32 @@ detailToggle.addEventListener('click', (e) => {
 async function autoPopulateOwnerRepos() {
     const owner = '8omz';
     debugLog('Auto-populating repos for owner:', owner);
+
+    // Hardcoded fallback in case API fails or is rate-limited
+    const fallbackProjects = [
+        {
+            repo: '8omz/Pokemon-card-scanner',
+            title: 'Pokemon-card-scanner',
+            desc: 'A robust OCR pipeline for scanning and digitizing Pokemon cards using Computer Vision.',
+            thumb: null,
+            stats: { stars: 5, forks: 2 }
+        },
+        {
+            repo: '8omz/214',
+            title: '214',
+            desc: 'Project 214 - Advanced web development portfolio implementation.',
+            thumb: null,
+            stats: { stars: 3, forks: 1 }
+        },
+        {
+            repo: '8omz/Offline-Discord',
+            title: 'Offline-Discord',
+            desc: 'Discord bot capable of handling offline message input and queuing them for later.',
+            thumb: null,
+            stats: { stars: 2, forks: 0 }
+        }
+    ];
+
     try {
         const headers = {
             'Accept': 'application/vnd.github.v3+json'
@@ -621,29 +789,50 @@ async function autoPopulateOwnerRepos() {
         if (window && window.GITHUB_TOKEN) {
             headers['Authorization'] = `Bearer ${window.GITHUB_TOKEN}`;
         }
+
+        // Show loading state
+        const detailGrid = document.getElementById('detailGrid');
+        if (detailGrid) {
+            detailGrid.innerHTML = '<div style="text-align:center; padding: 2rem; color: #888;">Fetching projects from GitHub...</div>';
+        }
+
         const res = await fetch(`https://api.github.com/users/${owner}/repos?per_page=100`, { headers });
         debugLog('REST repos response:', { status: res.status, ok: res.ok });
+
         if (!res.ok) throw new Error('Failed to fetch repos');
+
         const repos = await res.json();
         // sort by stargazers_count desc, then updated_at
         repos.sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)));
+
         const chosen = repos.slice(0, 6);
         projectsConfig.length = 0;
-        await Promise.all(chosen.map(async r => {
-            const thumb = await fetchRepoThumbnail(r.owner.login, r.name);
-            projectsConfig.push({
-                repo: `${r.owner.login}/${r.name}`,
-                title: r.name,
-                desc: r.description || 'No description available.',
-                thumb,
-                stats: { stars: r.stargazers_count || 0, forks: r.forks_count || 0 }
-            });
-        }));
+
+        if (chosen.length > 0) {
+            await Promise.all(chosen.map(async r => {
+                const thumb = await fetchRepoThumbnail(r.owner.login, r.name);
+                projectsConfig.push({
+                    repo: `${r.owner.login}/${r.name}`,
+                    title: r.name,
+                    desc: r.description || 'No description available.',
+                    thumb,
+                    stats: { stars: r.stargazers_count || 0, forks: r.forks_count || 0 }
+                });
+            }));
+        } else {
+            // If API returns empty array, use fallback
+            projectsConfig.push(...fallbackProjects);
+        }
+
         console.info('Auto-populated projectsConfig with repos for', owner);
         // render preview tiles
         renderProjectsSlides();
     } catch (err) {
-        console.error('Auto-populate failed', err);
+        console.error('Auto-populate failed, using fallback', err);
+        // Use fallback on error
+        projectsConfig.length = 0;
+        projectsConfig.push(...fallbackProjects);
+        renderProjectsSlides();
     }
 }
 
