@@ -1,6 +1,125 @@
+// ===================================
+// THEME TOGGLE SYSTEM
+// ===================================
 
+// Load saved theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'vibrant';
+    if (savedTheme === 'minimal') {
+        document.body.classList.add('theme-minimal');
+    }
+});
 
+// Theme toggle button handler
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('theme-minimal');
+        const currentTheme = document.body.classList.contains('theme-minimal') ? 'minimal' : 'vibrant';
+        localStorage.setItem('portfolio-theme', currentTheme);
 
+        // Optional: Add a subtle animation
+        themeToggle.style.transform = 'rotate(180deg)';
+        setTimeout(() => {
+            themeToggle.style.transform = '';
+        }, 300);
+    });
+}
+
+// ===================================
+// ETCH-A-SKETCH LOGIC
+// ===================================
+
+const sketchCanvas = document.getElementById('sketchCanvas');
+if (sketchCanvas) {
+    const ctx = sketchCanvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Resize canvas to full screen
+    function resizeCanvas() {
+        sketchCanvas.width = window.innerWidth;
+        sketchCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Init
+
+    // Interpolate between two points to fill gaps
+    function drawLine(x1, y1, x2, y2) {
+        const size = 6;
+        const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+        const steps = Math.ceil(distance / (size / 2)); // More steps for smoother line
+
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps;
+            const x = x1 + (x2 - x1) * t;
+            const y = y1 + (y2 - y1) * t;
+
+            const snapX = Math.floor(x / size) * size;
+            const snapY = Math.floor(y / size) * size;
+
+            // Fade-in animation effect
+            const alpha = 0.3 + (Math.random() * 0.7); // Random opacity for pixel effect
+            ctx.fillStyle = `rgba(157, 0, 255, ${alpha})`;
+            ctx.fillRect(snapX, snapY, size, size);
+
+            // Add a subtle glow
+            ctx.shadowColor = '#9d00ff';
+            ctx.shadowBlur = 4;
+            ctx.fillStyle = '#9d00ff';
+            ctx.fillRect(snapX, snapY, size, size);
+            ctx.shadowBlur = 0; // Reset shadow
+        }
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // Draw line from last position to current position
+        drawLine(lastX, lastY, x, y);
+
+        // Update last position
+        lastX = x;
+        lastY = y;
+    }
+
+    // Mouse Down - Left Click (button 0)
+    window.addEventListener('mousedown', (e) => {
+        // Only active in minimal mode and left click
+        if (document.body.classList.contains('theme-minimal') && e.button === 0) {
+            // Check if we are clicking on an interactive element (link/button)
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('#themeToggle')) {
+                return;
+            }
+            isDrawing = true;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            draw(e); // Draw single dot on click
+        }
+    });
+
+    // Mouse Move
+    window.addEventListener('mousemove', (e) => {
+        if (isDrawing) {
+            draw(e);
+        }
+    });
+
+    // Mouse Up
+    window.addEventListener('mouseup', (e) => {
+        if (e.button === 0) {
+            isDrawing = false;
+        }
+    });
+}
+
+// ===================================
+// ORIGINAL CODE
+// ===================================
 
 //Hides and Unhides elemnts when in view 
 const observer = new IntersectionObserver((entries) => {
@@ -469,9 +588,16 @@ resumeButtons.forEach((btn) => {
     });
 });
 
-detailClose.addEventListener('click', closeOverlay);
-overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeOverlay();
+// Event Delegation for Close Button
+document.addEventListener('click', (e) => {
+    // Check if clicked element is close button or inside it
+    if (e.target.closest('#detailClose')) {
+        closeOverlay();
+    }
+    // Check if clicked overlay background
+    if (e.target === overlay) {
+        closeOverlay();
+    }
 });
 
 // Removed in-page token UI. If you want to load exact pinned repos automatically,
@@ -681,4 +807,3 @@ window.addEventListener('load', () => {
         debugLog('Error during window.load:', e);
     }
 });
-

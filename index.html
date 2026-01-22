@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="themes.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +25,39 @@
 <body>
     <div class="bg-img">
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+        <svg class="theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+    </button>
+
+    <!-- Minimal Theme Landing (Similar to reference image) -->
+    <div class="minimal-landing">
+        <canvas id="sketchCanvas"></canvas>
+        <h1 class="minimal-name">OMAR SAKHO</h1>
+        <h2 class="minimal-title">SOFTWARE ENGINEER</h2>
+        <p class="minimal-subtitle">STUDYING CS AT WILFRID LAURIER UNIVERSITY</p>
+
+        <div class="minimal-links">
+            <a href="https://www.linkedin.com/in/omar-sakho/" target="_blank" rel="noopener">LINKEDIN</a>
+            <a href="https://drive.google.com/file/d/1A0GBIcKm_P3TkqFbkSymtTxIGY1YKKry/view?usp=sharing" target="_blank"
+                rel="noopener" class="minimal-link-btn">RESUME</a>
+            <a href="https://github.com/8omz" target="_blank" rel="noopener">GITHUB</a>
+            <button class="minimal-link-btn" onclick="openOverlay('projects')">PROJECTS</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="split">
             <div class="about-me">
@@ -46,7 +81,9 @@
                 <div class="hidden section section2">
                     <h2 class="head hidden Name-text">Passionate About <span class="gradient">Backend Development</span>
                         and <span class="gradient">Machine Learning</span></h2>
-                    <p class="about">Hey, I'm Omar. I study Computer Science at Wilfrid Laurier and I'm into backend development and machine learning. I like building full-stack projects and AI stuff using Python, JavaScript/TypeScript, and C++.</p>
+                    <p class="about">Hey, I'm Omar. I study Computer Science at Wilfrid Laurier and I'm into backend
+                        development and machine learning. I like building full-stack projects and AI stuff using Python,
+                        JavaScript/TypeScript, and C++.</p>
                     <div class="logos hidden">
 
                         <div class="imageFloat hidden js">
@@ -144,21 +181,23 @@
                         <button class="resumeSec proj" data-type="projects" aria-expanded="false">Projects</button>
                     </div>
 
-                    <!-- Overlay panel for expanded detail views -->
-                    <div id="detailOverlay" class="detail-overlay" aria-hidden="true">
-                        <div class="detail-panel" id="detailPanel">
-                            <div class="detail-controls">
-                                <button id="detailClose" class="detail-close" aria-label="Close details">×</button>
-                            </div>
-                            <h3 id="detailTitle"></h3>
-                            <div id="detailGrid" class="detail-grid">
-                                <!-- populated by JS yep -->
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Overlay panel for expanded detail views -->
+    <div id="detailOverlay" class="detail-overlay" aria-hidden="true">
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-controls">
+                <button id="detailClose" class="detail-close" aria-label="Close details">×</button>
+            </div>
+            <h3 id="detailTitle"></h3>
+            <div id="detailGrid" class="detail-grid">
+                <!-- populated by JS yep -->
+            </div>
+        </div>
+    </div>
 
 </body>
 
