@@ -751,35 +751,17 @@ detailToggle.addEventListener('click', (e) => {
     detailPanel.classList.toggle('expanded');
 });
 
-// Best-effort automatic population for owner '8omz' without requiring a token.
-// GitHub does not expose pinned items via REST without GraphQL auth, so we pick the user's top public repos instead.
+// Curated list of projects to display in the portfolio
 async function autoPopulateOwnerRepos() {
-    const owner = '8omz';
-    debugLog('Auto-populating repos for owner:', owner);
+    debugLog('Loading curated project list');
 
-    // Hardcoded fallback in case API fails or is rate-limited
-    const fallbackProjects = [
-        {
-            repo: '8omz/Pokemon-card-scanner',
-            title: 'Pokemon-card-scanner',
-            desc: 'A robust OCR pipeline for scanning and digitizing Pokemon cards using Computer Vision.',
-            thumb: null,
-            stats: { stars: 5, forks: 2 }
-        },
-        {
-            repo: '8omz/214',
-            title: '214',
-            desc: 'Project 214 - Advanced web development portfolio implementation.',
-            thumb: null,
-            stats: { stars: 3, forks: 1 }
-        },
-        {
-            repo: '8omz/Offline-Discord',
-            title: 'Offline-Discord',
-            desc: 'Discord bot capable of handling offline message input and queuing them for later.',
-            thumb: null,
-            stats: { stars: 2, forks: 0 }
-        }
+    // Define the specific projects to showcase
+    const PORTFOLIO_PROJECTS = [
+        'JowiAoun/Plante',
+        '8omz/Pokemon-card-scanner',
+        '8omz/Portfolio',
+        '8omz/Discord-DM-Sender',
+        '8omz/TTS-DISCORD-MIC'
     ];
 
     try {
@@ -796,43 +778,48 @@ async function autoPopulateOwnerRepos() {
             detailGrid.innerHTML = '<div style="text-align:center; padding: 2rem; color: #888;">Fetching projects from GitHub...</div>';
         }
 
-        const res = await fetch(`https://api.github.com/users/${owner}/repos?per_page=100`, { headers });
-        debugLog('REST repos response:', { status: res.status, ok: res.ok });
-
-        if (!res.ok) throw new Error('Failed to fetch repos');
-
-        const repos = await res.json();
-        // sort by stargazers_count desc, then updated_at
-        repos.sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)));
-
-        const chosen = repos.slice(0, 6);
         projectsConfig.length = 0;
 
-        if (chosen.length > 0) {
-            await Promise.all(chosen.map(async r => {
+        // Fetch each project individually
+        await Promise.all(PORTFOLIO_PROJECTS.map(async (repoFullName) => {
+            try {
+                const repoRes = await fetch(`https://api.github.com/repos/${repoFullName}`, { headers });
+                if (!repoRes.ok) {
+                    console.warn(`Failed to fetch ${repoFullName}`);
+                    return;
+                }
+
+                const r = await repoRes.json();
                 const thumb = await fetchRepoThumbnail(r.owner.login, r.name);
+
                 projectsConfig.push({
-                    repo: `${r.owner.login}/${r.name}`,
+                    repo: r.full_name,
                     title: r.name,
                     desc: r.description || 'No description available.',
                     thumb,
                     stats: { stars: r.stargazers_count || 0, forks: r.forks_count || 0 }
                 });
-            }));
-        } else {
-            // If API returns empty array, use fallback
-            projectsConfig.push(...fallbackProjects);
-        }
+            } catch (err) {
+                console.error(`Error fetching ${repoFullName}:`, err);
+            }
+        }));
 
-        console.info('Auto-populated projectsConfig with repos for', owner);
-        // render preview tiles
+        // Sort to maintain the order specified in PORTFOLIO_PROJECTS
+        projectsConfig.sort((a, b) => {
+            return PORTFOLIO_PROJECTS.indexOf(a.repo) - PORTFOLIO_PROJECTS.indexOf(b.repo);
+        });
+
+        console.info('Loaded projects:', projectsConfig);
         renderProjectsSlides();
     } catch (err) {
-        console.error('Auto-populate failed, using fallback', err);
-        // Use fallback on error
-        projectsConfig.length = 0;
-        projectsConfig.push(...fallbackProjects);
-        renderProjectsSlides();
+        console.error('Project fetch failed:', err);
+        const detailGrid = document.getElementById('detailGrid');
+        if (detailGrid) {
+            detailGrid.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-primary);">
+                <p>Failed to load projects from GitHub.</p>
+                <p style="font-size: 0.8em; opacity: 0.7;">${err.message}</p>
+            </div>`;
+        }
     }
 }
 
